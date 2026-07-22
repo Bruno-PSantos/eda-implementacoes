@@ -11,6 +11,9 @@ public class PV {
     public PV() {
         this.NIL = new Node();
         this.NIL.color = Color.BLACK;
+        this.NIL.left = NIL;
+        this.NIL.right = NIL;
+        this.NIL.parent = NIL;
 
         this.root = NIL;
         this.size = 0;
@@ -36,9 +39,6 @@ public class PV {
                     if (aux.left == NIL) {
                         newNode.parent = aux;
                         aux.left = newNode;
-
-                        fixUpInsert(newNode);
-                        return;
                     }
 
                     aux = aux.left;
@@ -46,14 +46,13 @@ public class PV {
                     if (aux.right == NIL) {
                         newNode.parent = aux;
                         aux.right = newNode;
-
-                        fixUpInsert(newNode);
-                        return;
                     }
 
                     aux = aux.right;
                 }
             }
+
+            fixUpInsert(newNode);
         }
     }
 
