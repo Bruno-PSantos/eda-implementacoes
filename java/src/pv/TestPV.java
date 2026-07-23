@@ -11,9 +11,11 @@ public class TestPV {
         t.testZigZagLeftInsertion();
         t.testZigZagRightInsertion();
         t.testSearch();
+        t.testRemove();
+        t.testRemocaoDuploPreto();
+        t.testInsercaoERemocao();
 
         System.out.println("PASSOU NOS TESTES!!!");
-
     }
 
     public void testAdd() {
@@ -22,13 +24,13 @@ public class TestPV {
         pv.add(10);
         assert pv.isEmpty() == false;
         assert pv.size() == 1;
-        assert pv.blackHeight() == 1;
+        assert pv.validateBlackHeight() == 2;
 
         pv.add(5);
         pv.add(15);
 
         assert pv.size() == 3;
-        assert pv.blackHeight() != -1;
+        assert pv.validateBlackHeight() != -1;
 
         ArrayList<Integer> v = new ArrayList<>(Arrays.asList(10, 5, 15));
         assert pv.bfs().equals(v);
@@ -46,7 +48,7 @@ public class TestPV {
         pv.add(7);
 
         assert pv.size() == 7;
-        assert pv.blackHeight() == 2;
+        assert pv.validateBlackHeight() == 3;
         
     }
 
@@ -59,7 +61,7 @@ public class TestPV {
 
         ArrayList<Integer> v = new ArrayList<>(Arrays.asList(20, 10, 30));
         assert pv.bfs().equals(v);
-        assert pv.blackHeight() == 1;
+        assert pv.validateBlackHeight() == 2;
     }
 
     public void testZigZagRightInsertion() {
@@ -71,7 +73,7 @@ public class TestPV {
 
         ArrayList<Integer> v = new ArrayList<>(Arrays.asList(20, 10, 30));
         assert pv.bfs().equals(v);
-        assert pv.blackHeight() == 1;
+        assert pv.validateBlackHeight() == 2;
     }
 
     public void testSearch() {
@@ -87,6 +89,69 @@ public class TestPV {
         assert pv.search(999) == pv.search(888);
         assert pv.search(999) == pv.search(5);
         assert pv.search(999) == pv.search(15);
+    }
+
+    public void testRemove() {
+        PV pv = new PV();
+
+        pv.add(50);
+        pv.add(25);
+        pv.add(75);
+        pv.add(12);
+        pv.add(37);
+
+        assert pv.size() == 5;
+
+        pv.remove(12);
+        assert pv.size() == 4;
+        assert pv.validateBlackHeight() == 3;
+
+        pv.remove(50);
+        assert pv.size() == 3;
+        assert pv.validateBlackHeight() == 3;
+        
+        assert pv.search(37).value == 37;
+        assert pv.search(25).value == 25;
+        assert pv.search(75).value == 75;
+    }
+
+    public void testRemocaoDuploPreto() {
+        PV pv = new PV();
+
+        int[] valores = {41, 38, 31, 12, 19, 8, 20, 27};
+        for (int v : valores) pv.add(v);
+
+        pv.remove(41);
+        assert pv.search(999) == pv.search(41);
+        assert pv.validateBlackHeight() == 3;
+
+        pv.remove(27);
+        assert pv.search(999) == pv.search(27);
+        assert pv.validateBlackHeight() == 3;
+
+        assert pv.size() == 6;
+    }
+
+
+    public void testInsercaoERemocao() {
+        PV pv = new PV();
+
+        pv.add(10);
+        pv.add(20);
+        pv.add(30);
+        pv.remove(20);
+
+        assert pv.size() == 2;
+        assert pv.validateBlackHeight() == 2;
+
+        pv.add(15);
+        pv.add(25);
+        pv.add(35);
+        pv.remove(10);
+
+        assert pv.size() == 4;
+        assert pv.validateBlackHeight() != -1;
+        assert pv.search(15).value == 15;
     }
 
 }
