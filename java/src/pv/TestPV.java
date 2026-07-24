@@ -12,8 +12,10 @@ public class TestPV {
         t.testZigZagRightInsertion();
         t.testSearch();
         t.testRemove();
-        t.testRemocaoDuploPreto();
-        t.testInsercaoERemocao();
+        t.testComplexRemove();
+        t.testInsertionAndRemove();
+        t.testBlackHeightAfterInsertions();
+        t.testBlackHeightAfterRemovals();
 
         System.out.println("PASSOU NOS TESTES!!!");
     }
@@ -115,7 +117,7 @@ public class TestPV {
         assert pv.search(75).value == 75;
     }
 
-    public void testRemocaoDuploPreto() {
+    public void testComplexRemove() {
         PV pv = new PV();
 
         int[] valores = {41, 38, 31, 12, 19, 8, 20, 27};
@@ -132,8 +134,7 @@ public class TestPV {
         assert pv.size() == 6;
     }
 
-
-    public void testInsercaoERemocao() {
+    public void testInsertionAndRemove() {
         PV pv = new PV();
 
         pv.add(10);
@@ -154,4 +155,48 @@ public class TestPV {
         assert pv.search(15).value == 15;
     }
 
+    public void testBlackHeightAfterInsertions() {
+        PV pv = new PV();
+
+        pv.add(10);
+        assert pv.validateBlackHeight() == 2;
+
+        pv.add(20);
+        assert pv.blackHeight() == 2;
+        assert pv.validateBlackHeight() == 2;
+
+        pv.add(30);
+        assert pv.validateBlackHeight() == 2;
+
+        pv.add(40);
+        assert pv.blackHeight() == 3;
+        assert pv.validateBlackHeight() == 3;
+
+        pv.add(50);
+        pv.add(60);
+        pv.add(70);
+        assert pv.validateBlackHeight() == 3;
+    }
+
+    public void testBlackHeightAfterRemovals() {
+        PV pv = new PV();
+
+        pv.add(10);
+        pv.add(20);
+        pv.add(30);
+        pv.add(40);
+        assert pv.validateBlackHeight() == 3;
+
+        pv.remove(40);
+        assert pv.validateBlackHeight() == 3;
+
+        pv.remove(30);
+        pv.remove(20);
+        assert pv.blackHeight() == 2;
+        assert pv.validateBlackHeight() == 2;
+
+        pv.remove(10);
+        assert pv.blackHeight() == 0;
+        assert pv.validateBlackHeight() == 0;
+    }
 }
