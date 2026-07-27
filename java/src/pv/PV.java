@@ -228,8 +228,6 @@ public class PV {
 
         node.right = newRoot.left;
         
-        // Atualiza o pai do filho a esquerda do nó que subiu
-        // Antes era newRoot, agora é node
         if (newRoot.left != NIL) {
             newRoot.left.parent = node;
         }
@@ -261,8 +259,6 @@ public class PV {
 
         node.left = newRoot.right;
         
-        // Atualiza o pai do filho a direita do nó que subiu
-        // Antes era newRoot, agora é node
         if (newRoot.right != NIL) {
             newRoot.right.parent = node;
         }
