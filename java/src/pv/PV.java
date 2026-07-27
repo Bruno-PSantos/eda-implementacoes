@@ -223,28 +223,30 @@ public class PV {
      * @param node nó a partir de onde a rotação ocorre
      */
     private void rotateLeft(Node node) {
-        Node rightChild = node.right;
-        rightChild.parent = node.parent;
+        Node newRoot = node.right;
+        newRoot.parent = node.parent;
 
-        node.right = rightChild.left;
+        node.right = newRoot.left;
         
-        if (rightChild.left != NIL) {
-            rightChild.left.parent = node;
+        // Atualiza o pai do filho a esquerda do nó que subiu
+        // Antes era newRoot, agora é node
+        if (newRoot.left != NIL) {
+            newRoot.left.parent = node;
         }
 
-        rightChild.left = node;
-        node.parent = rightChild;
+        newRoot.left = node;
+        node.parent = newRoot;
 
-        if (rightChild.parent != NIL) {
-            if (rightChild.parent.right == node) {
-                rightChild.parent.right = rightChild;
+        if (newRoot.parent != NIL) {
+            if (newRoot.parent.right == node) {
+                newRoot.parent.right = newRoot;
 
             } else {
-                rightChild.parent.left = rightChild;
+                newRoot.parent.left = newRoot;
             }
 
         } else {
-            this.root = rightChild;
+            this.root = newRoot;
         }
     }
 
@@ -254,28 +256,30 @@ public class PV {
      * @param node nó a partir de onde a rotação ocorre
      */
     private void rotateRight(Node node) {
-        Node leftChild = node.left;
-        leftChild.parent = node.parent;
+        Node newRoot = node.left;
+        newRoot.parent = node.parent;
 
-        node.left = leftChild.right;
+        node.left = newRoot.right;
         
-        if (leftChild.right != NIL) {
-            leftChild.right.parent = node;
+        // Atualiza o pai do filho a direita do nó que subiu
+        // Antes era newRoot, agora é node
+        if (newRoot.right != NIL) {
+            newRoot.right.parent = node;
         }
 
-        leftChild.right = node;
-        node.parent = leftChild;
+        newRoot.right = node;
+        node.parent = newRoot;
 
-        if (leftChild.parent != NIL) {
-            if (leftChild.parent.left == node) {
-                leftChild.parent.left = leftChild;
+        if (newRoot.parent != NIL) {
+            if (newRoot.parent.left == node) {
+                newRoot.parent.left = newRoot;
 
             } else {
-                leftChild.parent.right = leftChild;
+                newRoot.parent.right = newRoot;
             }
 
         } else {
-            this.root = leftChild;
+            this.root = newRoot;
         }
     }
 
@@ -338,13 +342,17 @@ public class PV {
 
     /**
      * Valida a altura preta de toda a árvore a partir da raiz.
+     * No cálculo da altura preta, a raiz não conta e o nó NIL conta.
      * 
      * @return a altura preta da árvore se estiver válida, -1 caso haja violação da propriedade de altura preta e 0 caso esteja vazia.
      */
     public int validateBlackHeight() {
         if (this.root == NIL) return 0;
 
-        return validateBlackHeight(this.root);
+        int blackHeight = validateBlackHeight(this.root);
+
+        if (blackHeight == -1) return - 1;
+        return blackHeight - 1;
     }
 
     /**
@@ -362,34 +370,32 @@ public class PV {
         if (leftHeight == -1 || rightHeight == -1 || leftHeight != rightHeight) return -1;
 
         if (node.color == Color.BLACK) return leftHeight + 1;
-        else return leftHeight;
+        return leftHeight;
     }
 
     /**
-     * Método didático.
      * Retorna a altura preta de um ramo.
+     * No cálculo da altura preta, a raiz não conta e o nó NIL conta.
      * 
      * @return a altura preta acumulada a partir da raiz ou 0 se a árvore estiver vazia.
      */
-    public int blackHeight() {
-        if (this.root == NIL) return 0;
+    public int blackHeight(int valor) {
+        Node no = search(valor);
+        if (no == NIL) return 0;
 
-        return blackHeight(this.root);
+        return blackHeightIncluding(no.left);
     }
 
     /**
-     * Método didático.
      * Método para auxiliar o cálculo da altura preta de um ramo.
      * 
      * @param node a raiz da subárvore.
      * @return a altura preta acumulada no caminho a partir do nó fornecido.
      */
-    private int blackHeight(Node node) {
+    private int blackHeightIncluding(Node node) {
         if (node == NIL) return 1;
 
-        int bh = blackHeight(node.left);
-
-        return bh + (node.left.color == Color.BLACK ? 1 : 0);
+        return (node.color == Color.BLACK ? 1 : 0) + blackHeightIncluding(node.left);
     }
 
     /**

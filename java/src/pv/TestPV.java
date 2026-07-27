@@ -14,6 +14,7 @@ public class TestPV {
         t.testRemove();
         t.testComplexRemove();
         t.testInsertionAndRemove();
+        t.testBlackHeight();
         t.testBlackHeightAfterInsertions();
         t.testBlackHeightAfterRemovals();
 
@@ -26,7 +27,7 @@ public class TestPV {
         pv.add(10);
         assert pv.isEmpty() == false;
         assert pv.size() == 1;
-        assert pv.validateBlackHeight() == 2;
+        assert pv.validateBlackHeight() == 1;
 
         pv.add(5);
         pv.add(15);
@@ -50,7 +51,7 @@ public class TestPV {
         pv.add(7);
 
         assert pv.size() == 7;
-        assert pv.validateBlackHeight() == 3;
+        assert pv.validateBlackHeight() == 2;
         
     }
 
@@ -63,7 +64,7 @@ public class TestPV {
 
         ArrayList<Integer> v = new ArrayList<>(Arrays.asList(20, 10, 30));
         assert pv.bfs().equals(v);
-        assert pv.validateBlackHeight() == 2;
+        assert pv.validateBlackHeight() == 1;
     }
 
     public void testZigZagRightInsertion() {
@@ -75,7 +76,7 @@ public class TestPV {
 
         ArrayList<Integer> v = new ArrayList<>(Arrays.asList(20, 10, 30));
         assert pv.bfs().equals(v);
-        assert pv.validateBlackHeight() == 2;
+        assert pv.validateBlackHeight() == 1;
     }
 
     public void testSearch() {
@@ -106,11 +107,11 @@ public class TestPV {
 
         pv.remove(12);
         assert pv.size() == 4;
-        assert pv.validateBlackHeight() == 3;
+        assert pv.validateBlackHeight() == 2;
 
         pv.remove(50);
         assert pv.size() == 3;
-        assert pv.validateBlackHeight() == 3;
+        assert pv.validateBlackHeight() == 2;
         
         assert pv.search(37).value == 37;
         assert pv.search(25).value == 25;
@@ -125,11 +126,11 @@ public class TestPV {
 
         pv.remove(41);
         assert pv.search(999) == pv.search(41);
-        assert pv.validateBlackHeight() == 3;
+        assert pv.validateBlackHeight() == 2;
 
         pv.remove(27);
         assert pv.search(999) == pv.search(27);
-        assert pv.validateBlackHeight() == 3;
+        assert pv.validateBlackHeight() == 2;
 
         assert pv.size() == 6;
     }
@@ -143,7 +144,7 @@ public class TestPV {
         pv.remove(20);
 
         assert pv.size() == 2;
-        assert pv.validateBlackHeight() == 2;
+        assert pv.validateBlackHeight() == 1;
 
         pv.add(15);
         pv.add(25);
@@ -159,23 +160,21 @@ public class TestPV {
         PV pv = new PV();
 
         pv.add(10);
-        assert pv.validateBlackHeight() == 2;
+        assert pv.validateBlackHeight() == 1;
 
         pv.add(20);
-        assert pv.blackHeight() == 2;
-        assert pv.validateBlackHeight() == 2;
+        assert pv.validateBlackHeight() == 1;
 
         pv.add(30);
-        assert pv.validateBlackHeight() == 2;
+        assert pv.validateBlackHeight() == 1;
 
         pv.add(40);
-        assert pv.blackHeight() == 3;
-        assert pv.validateBlackHeight() == 3;
+        assert pv.validateBlackHeight() == 2;
 
         pv.add(50);
         pv.add(60);
         pv.add(70);
-        assert pv.validateBlackHeight() == 3;
+        assert pv.validateBlackHeight() == 2;
     }
 
     public void testBlackHeightAfterRemovals() {
@@ -185,18 +184,43 @@ public class TestPV {
         pv.add(20);
         pv.add(30);
         pv.add(40);
-        assert pv.validateBlackHeight() == 3;
+        assert pv.validateBlackHeight() == 2;
 
         pv.remove(40);
-        assert pv.validateBlackHeight() == 3;
+        assert pv.validateBlackHeight() == 2;
 
         pv.remove(30);
         pv.remove(20);
-        assert pv.blackHeight() == 2;
-        assert pv.validateBlackHeight() == 2;
+        assert pv.validateBlackHeight() == 1;
 
         pv.remove(10);
-        assert pv.blackHeight() == 0;
         assert pv.validateBlackHeight() == 0;
+    }
+
+
+
+
+    public void testBlackHeight() {
+        PV pv = new PV();
+
+        pv.add(10);
+        pv.add(5);
+        pv.add(14);
+        pv.add(2);
+        pv.add(15);
+        pv.add(7);
+        pv.add(12);
+        pv.add(16);
+        pv.add(6);
+
+        assert pv.blackHeight(10) == 2;
+        assert pv.blackHeight(5) == 2;
+        assert pv.blackHeight(14) == 2;
+        assert pv.blackHeight(2) == 1;
+        assert pv.blackHeight(15) == 1;
+        assert pv.blackHeight(7) == 1;
+        assert pv.blackHeight(12) == 1;
+        assert pv.blackHeight(16) == 1;
+        assert pv.blackHeight(6) == 1;
     }
 }
