@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class TestPV {
 
@@ -138,22 +139,34 @@ public class TestPV {
     public void testInsertionAndRemove() {
         PV pv = new PV();
 
-        pv.add(10);
         pv.add(20);
+        pv.add(10);
         pv.add(30);
-        pv.remove(20);
-
-        assert pv.size() == 2;
         assert pv.validateBlackHeight() == 1;
+        assert pv.bfs().equals(List.of(20, 10, 30));
 
-        pv.add(15);
-        pv.add(25);
-        pv.add(35);
+        pv.add(40);
+        assert pv.validateBlackHeight() == 2;
+        assert pv.bfs().equals(List.of(20, 10, 30, 40));
+
+        pv.add(50);
+        pv.add(45);
+        assert pv.validateBlackHeight() == 2;
+        assert pv.bfs().equals(List.of(20, 10, 40, 30, 50, 45));
+
+        pv.add(48);
         pv.remove(10);
+        assert pv.validateBlackHeight() == 2;
+        assert pv.bfs().equals(List.of(40, 20, 48, 30, 45, 50));
 
-        assert pv.size() == 4;
-        assert pv.validateBlackHeight() != -1;
-        assert pv.search(15).value == 15;
+        pv.remove(45);
+        pv.remove(50);
+        assert pv.validateBlackHeight() == 2;
+        assert pv.bfs().equals(List.of(40, 20, 48, 30));
+
+        pv.remove(48);
+        assert pv.validateBlackHeight() == 2;
+        assert pv.bfs().equals(List.of(30, 20, 40));
     }
 
     public void testBlackHeightAfterInsertions() {

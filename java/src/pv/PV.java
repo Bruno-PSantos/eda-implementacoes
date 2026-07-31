@@ -26,6 +26,8 @@ public class PV {
         return this.root == NIL;
     }
 
+
+
     /**
      * Implementação iterativa da adição de um elemento em uma PV.
      * 
@@ -112,6 +114,8 @@ public class PV {
         }
     }
 
+
+
     /**
      * Remove o nó cujo valor é igual ao passado como parâmetro.
      * 
@@ -143,7 +147,7 @@ public class PV {
 
         if (toRemove == this.root) {
             this.root = child;
-        } else if (toRemove == parent.left) {
+        } else if (toRemove.isLeftChild()) {
             parent.left = child;
         } else {
             parent.right = child;
@@ -176,6 +180,7 @@ public class PV {
         if (brother.color == Color.RED) {
             brother.color = Color.BLACK;
             parent.color = Color.RED;
+
             if (isLeft) rotateLeft(parent);
             else rotateRight(parent);
             
@@ -185,6 +190,7 @@ public class PV {
 
         if (brother.left.color == Color.BLACK && brother.right.color == Color.BLACK) {
             brother.color = Color.RED;
+            
             fixUpDelete(parent, parent.parent);
             return;
         }
@@ -216,6 +222,8 @@ public class PV {
             rotateRight(parent);
         }
     }
+
+
 
     /**
      * Rotaciona o nó à esquerda.
@@ -279,10 +287,12 @@ public class PV {
         }
     }
 
+
+
     /**
      * Retorna o nó cujo valor é sucessor do valor passado como parâmetro. 
      * 
-     * @param valor O valor para o qual deseja-se identificar o sucessor.
+     * @param valor O nó para o qual deseja-se identificar o sucessor.
      * @return O nó contendo o sucessor do valor passado como parâmetro. O método retorna NIL
      * caso não haja sucessor.
      */
@@ -302,19 +312,73 @@ public class PV {
     }
 
     /**
+     * Retorna o nó cujo valor é predecessor do valor passado como parâmetro. 
+     * 
+     * @param valor O nó para o qual deseja-se identificar o predecessor.
+     * @return O nó contendo o predecessor do valor passado como parâmetro. O método retorna NIL 
+     * caso não haja predecessor.
+     */
+    public Node predecessor(Node node) {
+        if (node == NIL) return NIL;
+        
+        if (node.left != NIL)
+            return max(node.left);
+        else {
+            Node aux = node.parent;
+            
+            while (aux != NIL && aux.value > node.value)
+                aux = aux.parent;
+            
+            return aux;
+        }
+    }
+
+    /**
+     * Retorna o nó que contém o valor mínimo da árvore.
+     * 
+     * @return o nó contendo o valor mínimo da árvore ou NIL se a árvore estiver vazia.
+     */
+    public Node min() {
+        if (isEmpty()) return NIL;
+        return min(this.root);
+    }
+
+    /**
      * Retorna o nó que contém o valor mínimo da árvore cuja raiz é passada como parâmetro. Implementação iterativa.
      * 
      * @return o nó contendo o valor mínimo da árvore ou NIL se a árvore estiver vazia.
      */
     private Node min(Node node) {
-        if (isEmpty()) return NIL;
-
         while (node.left != NIL) {
             node = node.left;
         }
 
         return node;
     }
+
+    /**
+     * Retorna o nó que contém o valor máximo da árvore. Implementação recursiva.
+     * 
+     * @return o nó contendo o valor máximo da árvore ou NIL se a árvore estiver vazia.
+     */
+    public Node max() {
+        if (isEmpty()) return NIL;
+        return max(this.root);
+    }
+    
+    /**
+     * Retorna o nó que contém o valor máximo da árvore cuja raiz é passada como parâmetro. Implementação recursiva.
+     * 
+     * @param raiz da árvore.
+     * @return o nó contendo o valor máximo da árvore ou NIL se a árvore estiver vazia.
+     */
+    
+    private Node max(Node node) {
+        if (node.right == NIL) return node;
+        else return max(node.right);
+    }
+
+
 
     /**
      * Busca o nó cujo valor é igual ao passado como parâmetro. Implementação 
@@ -335,6 +399,8 @@ public class PV {
 
         return NIL;
     }
+
+
 
     /**
      * Valida a altura preta de toda a árvore a partir da raiz.
@@ -392,6 +458,54 @@ public class PV {
         if (node == NIL) return 1;
 
         return (node.color == Color.BLACK ? 1 : 0) + blackHeightIncluding(node.left);
+    }
+
+
+
+    /**
+     * Percorre a árvore em pré-ordem.
+     */
+    public void preOrder() {
+        preOrder(this.root);
+    }
+
+    private void preOrder(Node node) {
+        if (node != NIL) {
+            System.out.println(node.value);
+            preOrder(node.left);
+            preOrder(node.right);
+        }
+    }
+
+    /**
+     * Percorre a árvore em-ordem.
+     */
+    public void inOrder() {
+        inOrder(this.root);
+    }
+
+    private void inOrder(Node node) {
+        if (node != NIL) {
+            inOrder(node.left);
+            System.out.println(node.value);
+            inOrder(node.right);
+        }
+        
+    }
+
+    /**
+     * Percorre a árvore em pos-ordem.
+     */
+    public void posOrder() {
+        posOrder(this.root);
+    }
+
+    private void posOrder(Node node) {
+        if (node != NIL) {
+            posOrder(node.left);
+            posOrder(node.right);
+            System.out.println(node.value);
+        }
     }
 
     /**
