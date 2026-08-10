@@ -31,7 +31,7 @@ public class PV {
     /**
      * Implementação iterativa da adição de um elemento em uma PV.
      * 
-     * @param element o valor a ser adicionado na árvore.
+     * @param element O valor a ser adicionado na árvore.
      */
     public void add(int element) {
         this.size++;
@@ -73,7 +73,7 @@ public class PV {
     /**
      * Método auxiliar para rebalancear e restaurar as propriedades da PV após uma inserção.
      * 
-     * @param node o nó a ser ajustado.
+     * @param node O nó a ser ajustado.
      */
     private void fixUpInsert(Node node) {
         if (node == this.root) {
@@ -119,7 +119,7 @@ public class PV {
     /**
      * Remove o nó cujo valor é igual ao passado como parâmetro.
      * 
-     * @param value o valor do elemento a ser removido da PV.
+     * @param value O valor do elemento a ser removido da PV.
      */
     public void remove(int value) {
         Node toRemove = search(value);
@@ -132,7 +132,7 @@ public class PV {
     /**
      * Método auxiliar para controle da remoção de um nó.
      * 
-     * @param toRemove o nó a ser removido.
+     * @param toRemove O nó a ser removido.
      */
     private void remove(Node toRemove) {
         if (toRemove.left != NIL && toRemove.right != NIL) {
@@ -165,8 +165,8 @@ public class PV {
     /**
      * Método auxiliar para rebalancear e restaurar as propriedades da PV após uma remoção.
      * 
-     * @param node o nó a ser ajustado.
-     * @param parent o pai do nó a ser ajustado.
+     * @param node O nó a ser ajustado.
+     * @param parent O pai do nó a ser ajustado.
      */
     private void fixUpDelete(Node node, Node parent) {
         if (node.color == Color.RED || node == this.root) {
@@ -228,7 +228,7 @@ public class PV {
     /**
      * Rotaciona o nó à esquerda.
      * 
-     * @param node nó a partir de onde a rotação ocorre
+     * @param node Nó a partir de onde a rotação ocorre.
      */
     private void rotateLeft(Node node) {
         Node newRoot = node.right;
@@ -259,7 +259,7 @@ public class PV {
     /**
      * Rotaciona o nó à direita.
      * 
-     * @param node nó a partir de onde a rotação ocorre
+     * @param node Nó a partir de onde a rotação ocorre.
      */
     private void rotateRight(Node node) {
         Node newRoot = node.left;
@@ -292,9 +292,9 @@ public class PV {
     /**
      * Retorna o nó cujo valor é sucessor do valor passado como parâmetro. 
      * 
-     * @param valor O nó para o qual deseja-se identificar o sucessor.
-     * @return O nó contendo o sucessor do valor passado como parâmetro. O método retorna NIL
-     * caso não haja sucessor.
+     * @param node O nó para o qual deseja-se identificar o sucessor.
+     * @return O nó contendo o sucessor do valor passado como parâmetro. 
+     * O método retorna NIL caso não haja sucessor.
      */
     public Node sucessor(Node node) {
         if (node == NIL) return NIL;
@@ -314,9 +314,9 @@ public class PV {
     /**
      * Retorna o nó cujo valor é predecessor do valor passado como parâmetro. 
      * 
-     * @param valor O nó para o qual deseja-se identificar o predecessor.
-     * @return O nó contendo o predecessor do valor passado como parâmetro. O método retorna NIL 
-     * caso não haja predecessor.
+     * @param node O nó para o qual deseja-se identificar o predecessor.
+     * @return O nó contendo o predecessor do valor passado como parâmetro. 
+     * O método retorna NIL caso não haja predecessor.
      */
     public Node predecessor(Node node) {
         if (node == NIL) return NIL;
@@ -336,7 +336,7 @@ public class PV {
     /**
      * Retorna o nó que contém o valor mínimo da árvore.
      * 
-     * @return o nó contendo o valor mínimo da árvore ou NIL se a árvore estiver vazia.
+     * @return O nó contendo o valor mínimo da árvore ou NIL se a árvore estiver vazia.
      */
     public Node min() {
         if (isEmpty()) return NIL;
@@ -344,9 +344,11 @@ public class PV {
     }
 
     /**
-     * Retorna o nó que contém o valor mínimo da árvore cuja raiz é passada como parâmetro. Implementação iterativa.
+     * Retorna o nó que contém o valor mínimo da árvore cuja raiz 
+     * é passada como parâmetro. Implementação iterativa.
      * 
-     * @return o nó contendo o valor mínimo da árvore ou NIL se a árvore estiver vazia.
+     * @param node Raiz da árvore.
+     * @return O nó contendo o valor mínimo da árvore ou NIL se a árvore estiver vazia.
      */
     private Node min(Node node) {
         while (node.left != NIL) {
@@ -359,7 +361,7 @@ public class PV {
     /**
      * Retorna o nó que contém o valor máximo da árvore. Implementação recursiva.
      * 
-     * @return o nó contendo o valor máximo da árvore ou NIL se a árvore estiver vazia.
+     * @return O nó contendo o valor máximo da árvore ou NIL se a árvore estiver vazia.
      */
     public Node max() {
         if (isEmpty()) return NIL;
@@ -367,12 +369,12 @@ public class PV {
     }
     
     /**
-     * Retorna o nó que contém o valor máximo da árvore cuja raiz é passada como parâmetro. Implementação recursiva.
+     * Retorna o nó que contém o valor máximo da árvore cuja 
+     * raiz é passada como parâmetro. Implementação recursiva.
      * 
-     * @param raiz da árvore.
-     * @return o nó contendo o valor máximo da árvore ou NIL se a árvore estiver vazia.
+     * @param node Raiz da árvore.
+     * @return O nó contendo o valor máximo da árvore ou NIL se a árvore estiver vazia.
      */
-    
     private Node max(Node node) {
         if (node.right == NIL) return node;
         else return max(node.right);
@@ -406,7 +408,9 @@ public class PV {
      * Valida a altura preta de toda a árvore a partir da raiz.
      * No cálculo da altura preta, a raiz não conta e o nó NIL conta.
      * 
-     * @return a altura preta da árvore se estiver válida, -1 caso haja violação da propriedade de altura preta e 0 caso esteja vazia.
+     * @return A altura preta da árvore se estiver válida, 
+     * -1 caso haja violação da propriedade de altura preta 
+     * e 0 caso esteja vazia.
      */
     public int validateBlackHeight() {
         if (this.root == NIL) return 0;
@@ -420,8 +424,9 @@ public class PV {
     /**
      * Método para auxiliar na validação da altura preta.
      * 
-     * @param node a raiz da subárvore a ser validada.
-     * @return a altura preta da subárvore se estiver válida ou -1 caso haja violação da propriedade de altura preta.
+     * @param node A raiz da subárvore a ser validada.
+     * @return A altura preta da subárvore se estiver válida 
+     * ou -1 caso haja violação da propriedade de altura preta.
      */
     private int validateBlackHeight(Node node) {
         if (node == NIL) return 1;
@@ -439,7 +444,9 @@ public class PV {
      * Retorna a altura preta de um ramo.
      * No cálculo da altura preta, a raiz não conta e o nó NIL conta.
      * 
-     * @return a altura preta acumulada a partir da raiz ou 0 se a árvore estiver vazia.
+     * @param valor O valor do elemento que se deseja saber a altura.
+     * @return A altura preta acumulada a partir da raiz 
+     * ou 0 se a árvore estiver vazia.
      */
     public int blackHeight(int valor) {
         Node no = search(valor);
@@ -451,8 +458,8 @@ public class PV {
     /**
      * Método para auxiliar o cálculo da altura preta de um ramo.
      * 
-     * @param node a raiz da subárvore.
-     * @return a altura preta acumulada no caminho a partir do nó fornecido.
+     * @param node A raiz da subárvore.
+     * @return A altura preta acumulada no caminho a partir do nó fornecido.
      */
     private int blackHeightIncluding(Node node) {
         if (node == NIL) return 1;
@@ -534,7 +541,7 @@ public class PV {
     }
 
     /**
-     * @return o tamanho da árvore.
+     * @return O tamanho da árvore.
      */
     public int size() {
         return this.size;
